@@ -1,0 +1,294 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" x-data="{ mobileOpen: false }">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ profile.name }} | {{ profile.headline }}</title>
+    <meta
+      name="description"
+      content="{{ profile.role }} portfolio with Data Engineering, Analytics, Web, AI, and Git projects."
+    />
+
+    <!-- Inter font for a modern startup look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "system-ui", "sans-serif"],
+            },
+            colors: {
+              primary: {
+                400: "#5eead4",
+                500: "#2dd4bf",
+              },
+              accent: {
+                400: "#60a5fa",
+                500: "#3b82f6",
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Alpine.js CDN for mobile menu and smooth UI toggles -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Custom animation styles -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+
+  <body class="bg-slate-950 text-slate-100 font-sans antialiased">
+    <!-- Subtle gradient background glow -->
+    <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+      <div class="absolute -top-40 left-1/2 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-cyan-500/20 blur-3xl"></div>
+      <div class="absolute bottom-0 right-0 h-[22rem] w-[22rem] rounded-full bg-blue-500/20 blur-3xl"></div>
+    </div>
+
+    <!-- Sticky Navbar -->
+    <header class="sticky top-0 z-50 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur">
+      <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+        <a href="#home" class="font-extrabold tracking-tight text-lg">
+          {{ profile.name }}
+        </a>
+
+        <!-- Desktop Nav -->
+        <div class="hidden items-center gap-2 md:flex">
+          {% for item in nav_items %}
+            <a
+              href="{{ item.href }}"
+              class="rounded-md px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition"
+            >
+              {{ item.label }}
+            </a>
+          {% endfor %}
+        </div>
+
+        <!-- Mobile menu button -->
+        <button
+          type="button"
+          class="md:hidden rounded-md p-2 text-slate-200 hover:bg-slate-800"
+          @click="mobileOpen = !mobileOpen"
+          aria-label="Toggle menu"
+        >
+          <svg x-show="!mobileOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg x-show="mobileOpen" x-cloak class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </nav>
+
+      <!-- Mobile nav panel -->
+      <div
+        class="md:hidden border-t border-slate-800 bg-slate-900/95"
+        x-show="mobileOpen"
+        x-transition
+        x-cloak
+      >
+        <div class="mx-auto max-w-6xl px-4 py-3 sm:px-6 lg:px-8">
+          <div class="grid gap-2">
+            {% for item in nav_items %}
+              <a
+                href="{{ item.href }}"
+                @click="mobileOpen = false"
+                class="rounded-md px-3 py-2 text-sm font-medium text-slate-200 hover:bg-slate-800"
+              >
+                {{ item.label }}
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="home">
+      <!-- Hero Section -->
+      <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div class="grid items-center gap-10 lg:grid-cols-2">
+          <!-- Professional photo placeholder -->
+          <div class="reveal-on-scroll flex justify-center lg:justify-start">
+            <div class="relative w-full max-w-sm">
+              <div class="absolute -inset-1 rounded-3xl bg-gradient-to-r from-cyan-500/35 to-blue-500/35 blur"></div>
+              <div class="relative rounded-3xl border border-slate-800 bg-slate-900 p-6 shadow-2xl">
+                <div class="aspect-[3/4] rounded-2xl border border-dashed border-slate-700 bg-slate-800/60 flex items-center justify-center">
+                  <div class="text-center px-6">
+                    <div class="mx-auto mb-3 h-16 w-16 rounded-full bg-slate-700"></div>
+                    <p class="font-semibold text-slate-200">Professional Photo Placeholder</p>
+                    <p class="text-sm text-slate-400 mt-1">Add your profile photo here</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="reveal-on-scroll">
+            <p class="inline-flex items-center rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-cyan-300">
+              {{ profile.role }}
+            </p>
+            <h1 class="mt-4 text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
+              {{ profile.headline }}
+            </h1>
+            <p class="mt-5 max-w-xl text-lg text-slate-300">
+              {{ profile.intro }}
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a
+                href="#about"
+                class="rounded-lg bg-cyan-500 px-5 py-3 text-sm font-semibold text-slate-950 hover:bg-cyan-400 transition"
+              >
+                Explore Portfolio
+              </a>
+              <a
+                href="#contact"
+                class="rounded-lg border border-slate-700 px-5 py-3 text-sm font-semibold hover:border-slate-500 hover:bg-slate-900 transition"
+              >
+                Contact Me
+              </a>
+            </div>
+            <p class="mt-4 text-sm text-slate-400">{{ profile.location }}</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section id="about" class="scroll-mt-24 border-t border-slate-800/70">
+        <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+          <div class="reveal-on-scroll rounded-2xl border border-slate-800 bg-slate-900/60 p-8">
+            <h2 class="text-3xl font-bold">About</h2>
+            <p class="mt-4 max-w-3xl text-slate-300 leading-relaxed">
+              I combine engineering depth with product thinking to build systems that are both technically robust and business-relevant.
+              My work spans modern data architecture, analytics strategy, scalable web applications, and practical AI implementation.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Dynamic capability sections -->
+      {% for section in sections %}
+        <section id="{{ section.id }}" class="scroll-mt-24 border-t border-slate-800/70">
+          <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+            <div class="reveal-on-scroll">
+              <h2 class="text-3xl font-bold">{{ section.title }}</h2>
+              <p class="mt-3 max-w-3xl text-slate-300">{{ section.subtitle }}</p>
+            </div>
+
+            <!-- Tech Stack subsection -->
+            <div class="reveal-on-scroll mt-8">
+              <h3 class="text-xl font-semibold">Tech Stack</h3>
+              <div class="mt-4 flex flex-wrap gap-2">
+                {% for tech in section.tech_stack %}
+                  <!-- Badge style stack item -->
+                  <span class="rounded-full border border-slate-700 bg-slate-900 px-3 py-1 text-sm text-slate-200">
+                    {{ tech }}
+                  </span>
+                {% endfor %}
+              </div>
+            </div>
+
+            <!-- Case Studies / Examples subsection -->
+            <div class="reveal-on-scroll mt-10">
+              <h3 class="text-xl font-semibold">Case Studies / Examples</h3>
+              <div class="mt-5 grid gap-6 md:grid-cols-2">
+                {% for project in section.projects %}
+                  <!-- Project card -->
+                  <article class="group rounded-2xl border border-slate-800 bg-slate-900/60 p-6 transition hover:-translate-y-1 hover:border-cyan-500/40 hover:shadow-xl hover:shadow-cyan-500/10">
+                    <h4 class="text-lg font-bold">{{ project.title }}</h4>
+                    <p class="mt-3 text-slate-300 leading-relaxed">
+                      {{ project.description }}
+                    </p>
+
+                    <!-- GIF placeholder box -->
+                    <div class="mt-5 rounded-xl border border-dashed border-slate-700 bg-slate-950/70 p-5">
+                      <div class="aspect-video w-full rounded-lg bg-slate-800/80 flex items-center justify-center text-center">
+                        <div>
+                          <p class="font-semibold text-slate-200">GIF Demo Placeholder</p>
+                          <p class="text-xs text-slate-400 mt-1">Insert project animation/GIF here</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mt-5 flex gap-3">
+                      <a
+                        href="#contact"
+                        class="rounded-md bg-blue-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-400"
+                      >
+                        Discuss Project
+                      </a>
+                      <button
+                        type="button"
+                        class="rounded-md border border-slate-700 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-slate-500 hover:bg-slate-800"
+                      >
+                        View Details
+                      </button>
+                    </div>
+                  </article>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </section>
+      {% endfor %}
+    </main>
+
+    <!-- Contact Footer -->
+    <footer id="contact" class="scroll-mt-24 border-t border-slate-800 bg-slate-950/90">
+      <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
+        <div class="reveal-on-scroll rounded-2xl border border-slate-800 bg-gradient-to-r from-slate-900 to-slate-900/80 p-8">
+          <h2 class="text-3xl font-bold">Let’s Build Something Meaningful</h2>
+          <p class="mt-3 max-w-2xl text-slate-300">
+            Open to collaborations in Data Engineering, Analytics, Web Product Development, and Applied AI.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a
+              href="mailto:{{ profile.email }}"
+              class="rounded-lg bg-cyan-500 px-5 py-3 text-sm font-semibold text-slate-950 hover:bg-cyan-400 transition"
+            >
+              {{ profile.email }}
+            </a>
+            {% for social in profile.socials %}
+              <a
+                href="{{ social.url }}"
+                class="rounded-lg border border-slate-700 px-5 py-3 text-sm font-semibold text-slate-200 hover:border-slate-500 hover:bg-slate-800 transition"
+              >
+                {{ social.label }}
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Tiny script to reveal elements on scroll -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const targets = document.querySelectorAll(".reveal-on-scroll");
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12 }
+        );
+
+        targets.forEach((el) => observer.observe(el));
+      });
+    </script>
+  </body>
+</html>
